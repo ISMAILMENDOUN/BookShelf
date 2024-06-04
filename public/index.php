@@ -1,3 +1,4 @@
+<h1>TEST</h1>
 <?php
 
 use Illuminate\Contracts\Http\Kernel;
