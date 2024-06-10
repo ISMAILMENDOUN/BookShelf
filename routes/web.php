@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserBookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,20 +16,28 @@ use App\Http\Controllers\BookController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 /***************************************************ROUTES FOR USERS********************************** */
+
+Route::middleware(['auth'])->group(function () {
 Route::get('/user',[UserController::class,'index'])->name('user.index');
-Route::get('/create',[UserController::class,'create'])->name('user.create');
-Route::post('/user/store',[UserController::class,'store'])->name('user.store');
-Route::delete('/user/{user}/delete',[UserController::class,'delete'])->name('user.delete');
-Route::get('/user/{user}/update',[UserController::class,'update'])->name('user.update');
-Route::put('/{user}/updated',[UserController::class,'updated'])->name('user.updated');
+Route::get('/logout',[UserController::class,'logout'])->name('user.logout');
+});
+Route::post('/login',[UserController::class,'login'])->name('user.login');
 /****************************************************ROUTES FOR BOOKS******************************* */
 
-Route::get('/book',[BookController::class,'index'])->name('book.index');
-
+Route::get('/{book}/book',[BookController::class,'indexBook'])->name('index');
+Route::get('/',[BookController::class,'index'])->name('book.index');
 
 /****************************************************ROUTES FOR USERS_BOOKS************************* */
-Route::get('/userBook',[BookController::class,'index'])->name('book.index');
+Route::get('/userBook',[UserBookController::class,'index'])->name('user_book');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/{book}/purchase',[UserBookController::class,'purchase'])->name('book.purchase');
+    
+    });
+/****************************************************ROUTES FOR ADMIN************************* */
+Route::get('/admin',[UserController::class,'admin'])->name('adminIndex');
+Route::get('/admin/create',[UserController::class,'create'])->name('user.create');
+Route::post('/admin/store',[UserController::class,'store'])->name('user.store');
+Route::delete('/admin/{user}/delete',[UserController::class,'delete'])->name('user.delete');
+Route::get('/admin/{user}/update',[UserController::class,'update'])->name('user.update');
+Route::put('/{user}/updated',[UserController::class,'updated'])->name('user.updated');

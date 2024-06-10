@@ -10,7 +10,7 @@
 <form method="POST"action="{{route('user.store')}}" style="flex-direction:colmun">
 @csrf
 @method('post')
-<label for="">First Name:</label>
+<label for="test">First Name:</label>
 <input name="firstName" type="text">
 <label  for="">Last Name:</label>
 <input name="lastName" type="text">
