@@ -19,9 +19,20 @@ protected $fillable=[
     'price',
     'description',
     'cover_image',
+    'pdf_link',
 
 ];
+public function bookAccess(){
+    $userId = session()->get('userId');
+    $userBook = UserBook::where('user_id', $userId)
+                        ->where('book_id', $this->id)
+                        ->first();
+                        if($userBook){
+return $userBook->statut;}
+else {
 
-
+    return null;
+}
+}
     use HasFactory;
 }

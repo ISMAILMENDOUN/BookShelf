@@ -36,7 +36,7 @@ class BooksTableSeeder extends Seeder
             $price = 0; // You may need to fetch this data from another source
             $description = isset($volumeInfo['description']) ? $volumeInfo['description'] : 'No description available';
             $cover_image = isset($volumeInfo['imageLinks']['thumbnail']) ? $volumeInfo['imageLinks']['thumbnail'] : null;
-
+            $pdfLink = isset($item['accessInfo']['pdf']['downloadLink']) ? $item['accessInfo']['pdf']['downloadLink'] : null;
             Book::create([
                 'title' => $title,
                 'author' => $author,
@@ -50,6 +50,7 @@ class BooksTableSeeder extends Seeder
                 'price' => $price,
                 'description' => $description,
                 'cover_image' => $cover_image,
+                'pdf_link'=>$pdfLink,
             ]);
         }
     }

@@ -41,7 +41,16 @@
         <p><strong>Format: </strong>{{$book->format}}</p>
         <p><strong>Price: </strong>{{$book->price}}</p>
         <p><strong>Description: </strong> {{$book->description}}</p>
-        <button class="btn btn-primary" onclick="window.location='{{ route('book.purchase', ['book' => $book->id]) }}'">Purchase</button>
+        <!--<button class="btn btn-primary" onclick="window.location='{{ route('book.purchase', ['book' => $book->id]) }}'">Purchase</button>
+        <a href="{{route('book.index')}}">Go Back</a>-->
+        @if ($book->bookAccess() === 'accepted')
+        <a href="{{$book->pdf_link}}" target="_blank" class="btn btn-success">Read Book</a>
+<!--<button  id="readBookBtn"class="btn btn-success">Read Book</button>//href="{{$book->pdf_link}}"-->
+        @elseif ($book->bookAccess() === 'waiting')
+            <button class="btn btn-primary" disabled>Purchased</button>
+        @else
+            <button class="btn btn-primary" onclick="window.location='{{ route('book.purchase', ['book' => $book->id]) }}'">Purchase</button>
+        @endif
         <a href="{{route('book.index')}}">Go Back</a>
       </div>
     </div>
@@ -53,6 +62,20 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#readBookBtn').click(function() {
+      var pdfLink = '{{$book->pdf_link}}';
+      if (pdfLink) {
+        // If PDF link exists, set iframe src attribute to PDF link
+        $('#pdfIframe').attr('src', pdfLink);
+        $('#pdfIframe').style.display="block";
+      }
+    });
+  });
+</script>
 
+<!-- iframe to display PDF -->
+<iframe id="pdfIframe" width="100%" height="500px" style="display: none;"></iframe>
 </body>
 </html>

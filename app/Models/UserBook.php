@@ -11,6 +11,7 @@ class UserBook extends Model
        'user_id',
        'book_id',
        'date_loaned',
+       
     ];
     
     use HasFactory;
