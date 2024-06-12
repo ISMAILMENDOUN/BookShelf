@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<div class="container mt-4">
+<div class="container mt-4 h-25">
   <h2>Book Details</h2>
   <div class="product-details">
     <div class="row">

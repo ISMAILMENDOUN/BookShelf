@@ -23,7 +23,7 @@
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand" href="#">E-Library</a>
+  <a class="navbar-brand" href="{{route('book.index')}}">E-Library</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -35,7 +35,7 @@
         </li>
         
          <li class="nav-item">
-          <a class="nav-link" href="#">My Books</a>
+          <a class="nav-link" href="{{route('myBooks')}}">My Books</a>
         </li>
         <li class="nav-item">
           <a class="nav-link browse-books" href="#">Browse Books</a>
@@ -52,7 +52,7 @@
 </nav>
 
 <!-- Page Content -->
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
   <div class="jumbotron">
     <h1 class="display-4">Welcome to E-Library</h1>
     <p class="lead">Browse our collection of books and discover new titles.</p>
@@ -63,15 +63,58 @@
   
   <!-- Book List -->
   <div class="book-list">
-    <h2>Book List</h2>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Search books..." aria-label="Search books" aria-describedby="basic-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Search</button>
+    <section id="myBooks">
+    @if(isset($myBooks))
+    <h2>My Books</h2>
+     @endif
+    <div class="row">
+    @if(isset($myBooks))
+    @foreach($myBooks as $myBook)
+    <div class="col-md-4">
+        <div class="card w-50">
+          <img src="{{$myBook->cover_image}}" class="card-img-top h-75" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{$myBook->title}}</h5>
+            <p class="card-text">{{$myBook->author}}</p>
+            <a href="{{ route('index', ['book' => $myBook]) }}" class="btn btn-primary">Read More</a>
+
+          </div>
+        </div>
       </div>
-    </div>
+    @endforeach
+    @endif
+  </div>
+
+    </section>
+    
+    <h2>Book List</h2>
+    <form action="{{route('search_book')}}" method="GET"><div class="input-group mb-3">
+      @csrf 
+      @method('get')
+      <input type="text" class="form-control" name="search" placeholder="Search books..." aria-label="Search books" aria-describedby="basic-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </div>
+    </div></form>
+   
     <!-- Dummy Book List -->
     <div class="row">
+      @if(isset($results))
+    @foreach($results as $book)
+    <div class="col-md-4">
+        <div class="card w-50">
+          <img src="{{$book->cover_image}}" class="card-img-top h-75" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{$book->title}}</h5>
+            <p class="card-text">{{$book->author}}</p>
+            <a href="{{ route('index', ['book' => $book]) }}" class="btn btn-primary">Read More</a>
+
+          </div>
+        </div>
+      </div>
+    @endforeach
+    @endif
+      @if(isset($books))
       @foreach($books as $book)
       <div class="col-md-4">
         <div class="card w-50">
@@ -85,6 +128,7 @@
         </div>
       </div>
       @endforeach
+      @endif
       <!--<div class="col-md-4">
         <div class="card">
           <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
@@ -131,3 +175,14 @@
 </script>
 </body>
 </html>
+@if(isset($buttonClicked) && $buttonClicked == true)
+    <script>
+        $(document).ready(function() {
+            $(".login-section").hide();
+            $(".jumbotron").remove();
+            $(".book-list").toggle();
+        });
+        
+    </script>
+    <?php $buttonClicked = false; ?>
+@endif

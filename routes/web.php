@@ -27,13 +27,16 @@ Route::post('/login',[UserController::class,'login'])->name('user.login');
 
 Route::get('/{book}/book',[BookController::class,'indexBook'])->name('index');
 Route::get('/',[BookController::class,'index'])->name('book.index');
+Route::get('/search',[BookController::class,'search'])->name('search_book');
 
 /****************************************************ROUTES FOR USERS_BOOKS************************* */
 Route::get('/userBook',[UserBookController::class,'index'])->name('user_book');
 Route::middleware(['auth'])->group(function () {
     Route::get('/{book}/purchase',[UserBookController::class,'purchase'])->name('book.purchase');
-    
+    Route::get('/myBooks',[UserBookController::class,'myBooks'])->name('myBooks');
     });
+
+    
 /****************************************************ROUTES FOR ADMIN************************* */
 Route::get('/admin',[UserController::class,'admin'])->name('adminIndex');
 Route::get('/admin/create',[UserController::class,'create'])->name('user.create');

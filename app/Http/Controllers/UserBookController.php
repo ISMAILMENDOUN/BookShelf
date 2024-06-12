@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\BookController;
 use Illuminate\Http\Request;
 use App\Models\UserBook;
 class UserBookController extends Controller
@@ -23,6 +23,15 @@ class UserBookController extends Controller
 
 }
 
+
+
+public function myBooks(){
+    $userId = session()->get('userId');
+    $bookIds = UserBook::where('user_id', $userId)->select('book_id')->get();
+    $bookController = new BookController();
+    $myBooks = $bookController->books($bookIds);
+    return view('users.index', ['myBooks' =>$myBooks,'buttonClicked' => true]);
+}
 
 
 }
