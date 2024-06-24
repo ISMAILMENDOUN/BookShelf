@@ -44,3 +44,5 @@ Route::post('/admin/store',[UserController::class,'store'])->name('user.store');
 Route::delete('/admin/{user}/delete',[UserController::class,'delete'])->name('user.delete');
 Route::get('/admin/{user}/update',[UserController::class,'update'])->name('user.update');
 Route::put('/{user}/updated',[UserController::class,'updated'])->name('user.updated');
+Route::get('/admin/user_book',[UserBookController::class,'allUserBooks'])->name('admin.allUserBooks');
+Route::put('/admin/{userBook}/user_book',[UserBookController::class,'changeStatut'])->name('userBook.accept');

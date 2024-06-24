@@ -33,5 +33,20 @@ public function myBooks(){
     return view('users.index', ['myBooks' =>$myBooks,'buttonClicked' => true]);
 }
 
+public function allUserBooks(){
+    $userBooks = UserBook::all();
+    return view('users.allUserBooks', compact('userBooks'));
 
+}
+
+
+
+public function changeStatut(UserBook $userBook,Request $request){
+    
+    $userBook->statut = 'accepted';
+    $userBook->save();
+    return redirect()->route('admin.allUserBooks')->with('success', 'UserBook updated successfully!');
+    
+       
+        }
 }
